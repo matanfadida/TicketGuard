@@ -17,6 +17,6 @@ services:
       - sqldata:/var/opt/mssql
     environment:
       ACCEPT_EULA: "Y"
-      MSSQL_SA_PASSWORD: "${SQL_PASSWORD}"
+      MSSQL_SA_PASSWORD: "${SQL_PASSWORD:?Set SQL_PASSWORD in .env (see .env.example)}"
 volumes:
   sqldata:
