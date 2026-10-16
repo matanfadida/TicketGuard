@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <!-- Api: HTTP endpoints. Wires Application and Infrastructure together. -->
+  <ItemGroup>
+    <ProjectReference Include="..\TicketGuard.Application\TicketGuard.Application.csproj" />
+    <ProjectReference Include="..\TicketGuard.Infrastructure\TicketGuard.Infrastructure.csproj" />
+  </ItemGroup>
+</Project>

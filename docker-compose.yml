@@ -1,0 +1,22 @@
+services:
+  redis:
+    image: redis:7
+    container_name: ticketguard-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      retries: 5
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlticketguard
+    ports:
+      - "14330:1433"
+    volumes: 
+      - sqldata:/var/opt/mssql
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "${SQL_PASSWORD}"
+volumes:
+  sqldata:

@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/TicketGuard.Api/TicketGuard.Api.csproj" />
+    <Project Path="src/TicketGuard.Application/TicketGuard.Application.csproj" />
+    <Project Path="src/TicketGuard.Domain/TicketGuard.Domain.csproj" />
+    <Project Path="src/TicketGuard.Infrastructure/TicketGuard.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/TicketGuard.IntegrationTests/TicketGuard.IntegrationTests.csproj" />
+    <Project Path="tests/TicketGuard.UnitTests/TicketGuard.UnitTests.csproj" />
+  </Folder>
+</Solution>

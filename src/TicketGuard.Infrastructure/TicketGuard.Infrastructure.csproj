@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Infrastructure: EF Core, Redis, external services. Implements interfaces defined in Application. -->
+  <ItemGroup>
+    <ProjectReference Include="..\TicketGuard.Application\TicketGuard.Application.csproj" />
+  </ItemGroup>
+</Project>

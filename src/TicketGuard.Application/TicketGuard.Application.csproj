@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Application: use cases. Depends only on Domain. -->
+  <ItemGroup>
+    <ProjectReference Include="..\TicketGuard.Domain\TicketGuard.Domain.csproj" />
+  </ItemGroup>
+</Project>
