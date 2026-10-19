@@ -4,4 +4,11 @@
     <ProjectReference Include="..\TicketGuard.Application\TicketGuard.Application.csproj" />
     <ProjectReference Include="..\TicketGuard.Infrastructure\TicketGuard.Infrastructure.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <!-- Needed by the dotnet-ef tool to create migrations. Not part of the running app. -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
 </Project>
