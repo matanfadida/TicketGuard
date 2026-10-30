@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TicketGuard.Application.Seats;
 using TicketGuard.Infrastructure.Persistence;
+using TicketGuard.Infrastructure.Seats;
 
 namespace TicketGuard.Infrastructure;
 
@@ -24,6 +26,13 @@ public static class DependencyInjection
 
             options.UseSqlServer(connectionString);
         });
+
+        // The current time comes from TimeProvider instead of DateTimeOffset.UtcNow,
+        // so tests can control the clock (e.g. jump 10 minutes ahead to expire a hold).
+        services.AddSingleton(TimeProvider.System);
+
+        services.AddScoped<ISeatHoldService, SeatHoldService>();
+        services.AddHostedService<ExpiredHoldReleaser>();
 
         return services;
     }
