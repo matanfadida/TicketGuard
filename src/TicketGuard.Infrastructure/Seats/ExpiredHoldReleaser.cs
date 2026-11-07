@@ -8,7 +8,7 @@ using TicketGuard.Infrastructure.Persistence;
 namespace TicketGuard.Infrastructure.Seats;
 
 /// <summary>
-/// Background job: every 30 seconds, returns seats whose hold expired to Available,
+/// Background job: every 30 seconds (now to 2 day beacuse the cost of azure) , returns seats whose hold expired to Available,
 /// so the seat map shows them as free. Correctness does not depend on this job:
 /// SeatHoldService already treats an expired hold as free.
 /// </summary>
@@ -17,7 +17,7 @@ public class ExpiredHoldReleaser(
     TimeProvider timeProvider,
     ILogger<ExpiredHoldReleaser> logger) : BackgroundService
 {
-    private static readonly TimeSpan Interval = TimeSpan.FromSeconds(30);
+    private static readonly TimeSpan Interval = TimeSpan.FromDays(2);
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
