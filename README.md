@@ -1,5 +1,34 @@
 # TicketGuard
 
+## Status (November 2026)
+
+Work in progress. Sections 1 to 8 are the full design; this section says what runs today.
+
+**Working now**
+
+- **Seat holds:** `POST /events/{eventId}/seats/{seatId}/hold` holds a seat and `DELETE` on the same route releases it. A hold is a single atomic update in SQL Server, so two buyers can never hold the same seat.
+- **Hold expiry:** an expired hold counts as a free seat. A background service (`ExpiredHoldReleaser`) cleans up expired holds. Time is injected with `TimeProvider`, so tests move the clock instead of waiting.
+- **Tests:** unit tests for the sale rules, and integration tests against a real SQL Server in a container (Testcontainers), including 100 parallel requests for one seat where exactly one succeeds.
+- **Docker:** a multi-stage `Dockerfile` for the API, and `docker-compose.yml` for local SQL Server (Redis is defined for the queue but not used yet).
+- **Cloud:** deployed to Azure Container Apps with Azure SQL (Serverless). The connection string is kept in Container Apps secrets, never in the repository.
+
+**Next:** payments with idempotency keys, the Angular frontend, and the queue in Redis. See the [Roadmap](#roadmap).
+
+**Run the tests** (Docker must be running):
+
+```bash
+dotnet test
+```
+
+**Run the API locally:**
+
+1. Copy `.env.example` to `.env` and set `SQL_PASSWORD`.
+2. Start SQL Server (port 14330): `docker compose up -d sqlserver`
+3. Store the connection string in User Secrets, so it never enters the repository:
+   `dotnet user-secrets set "ConnectionStrings:SqlServer" "Server=localhost,14330;Database=TicketGuard;User ID=sa;Password=<SQL_PASSWORD>;TrustServerCertificate=True" --project src/TicketGuard.Api`
+4. Create the database: `dotnet ef database update -p src/TicketGuard.Infrastructure -s src/TicketGuard.Api`
+5. Run: `dotnet run --project src/TicketGuard.Api`
+
 ## 1. Goal
 
 An online system for booking tickets to shows and events.
@@ -229,10 +258,10 @@ If issuing fails, the order stays paid and the invoice is retried in the backgro
 
 ## Roadmap
 
-- [ ] **1. Setup:** solution structure, Docker Compose with SQL Server and Redis, CI on GitHub Actions
-- [ ] **2. Venues, events and seats:** seat holds with an atomic update, and a test of 100 parallel requests for one seat
+- [ ] **1. Setup:** solution structure, Docker Compose with SQL Server and Redis, CI on GitHub Actions *(done except CI)*
+- [x] **2. Venues, events and seats:** seat holds with an atomic update, and a test of 100 parallel requests for one seat
 - [ ] **3. Queue in Redis**
 - [ ] **4. Orders and payments:** idempotency and status checks with the provider
 - [ ] **5. Users, JWT, SMS and email**
 - [ ] **6. Angular frontend:** customer and admin websites
-- [ ] **7. Cloud deployment and load test**
+- [ ] **7. Cloud deployment and load test** *(deployed to Azure; load test not done yet)*
